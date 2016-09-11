@@ -1,0 +1,6 @@
+# eagle generated
+*.job
+*.s#*
+*.l#*
+*.b#*
+eagle.epf
