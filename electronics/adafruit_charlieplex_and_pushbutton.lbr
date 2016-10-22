@@ -68,31 +68,31 @@
 <wire x1="-11.43" y1="21.59" x2="-13.97" y2="19.05" width="0.127" layer="21" curve="90"/>
 <wire x1="-13.97" y1="19.05" x2="-13.97" y2="-19.05" width="0.127" layer="21"/>
 <wire x1="-13.97" y1="-19.05" x2="-11.43" y2="-21.59" width="0.127" layer="21" curve="90"/>
-<pad name="B7" x="-12.7" y="0" drill="1.2"/>
-<pad name="B8" x="-12.7" y="-2.54" drill="1.2"/>
-<pad name="B9" x="-12.7" y="-5.08" drill="1.2"/>
-<pad name="B6" x="-12.7" y="2.54" drill="1.2"/>
-<pad name="B5" x="-12.7" y="5.08" drill="1.2"/>
-<pad name="B4" x="-12.7" y="7.62" drill="1.2"/>
-<pad name="B3" x="-12.7" y="10.16" drill="1.2"/>
-<pad name="B2" x="-12.7" y="12.7" drill="1.2"/>
-<pad name="A6" x="12.7" y="-2.54" drill="1.2"/>
-<pad name="A7" x="12.7" y="0" drill="1.2"/>
-<pad name="A8" x="12.7" y="2.54" drill="1.2"/>
-<pad name="A5" x="12.7" y="-5.08" drill="1.2"/>
-<pad name="A4" x="12.7" y="-7.62" drill="1.2"/>
-<pad name="A3" x="12.7" y="-10.16" drill="1.2"/>
-<pad name="A2" x="12.7" y="-12.7" drill="1.2"/>
-<pad name="A1" x="12.7" y="-15.24" drill="1.2" rot="R90"/>
+<pad name="B7" x="12.7" y="10.16" drill="1.2"/>
+<pad name="B8" x="12.7" y="12.7" drill="1.2"/>
+<pad name="B9" x="12.7" y="15.24" drill="1.2"/>
+<pad name="B6" x="12.7" y="7.62" drill="1.2"/>
+<pad name="B5" x="12.7" y="5.08" drill="1.2"/>
+<pad name="B4" x="12.7" y="2.54" drill="1.2"/>
+<pad name="B3" x="12.7" y="0" drill="1.2"/>
+<pad name="B2" x="12.7" y="-2.54" drill="1.2"/>
+<pad name="A6" x="-12.7" y="-2.54" drill="1.2"/>
+<pad name="A7" x="-12.7" y="0" drill="1.2"/>
+<pad name="A8" x="-12.7" y="2.54" drill="1.2"/>
+<pad name="A5" x="-12.7" y="-5.08" drill="1.2"/>
+<pad name="A4" x="-12.7" y="-7.62" drill="1.2"/>
+<pad name="A3" x="-12.7" y="-10.16" drill="1.2"/>
+<pad name="A2" x="-12.7" y="-12.7" drill="1.2"/>
+<pad name="A1" x="-12.7" y="-15.24" drill="1.2" rot="R90"/>
 <hole x="-11.43" y="19.05" drill="2.8"/>
 <hole x="11.43" y="19.05" drill="2.8"/>
 <hole x="-11.43" y="-19.05" drill="2.8"/>
 <hole x="11.43" y="-19.05" drill="2.8"/>
-<text x="10.16" y="-12.7" size="1.27" layer="21" rot="R90">Charlieplexed led matrix</text>
-<text x="11.43" y="-15.24" size="1.27" layer="21" rot="R90">A1</text>
-<text x="-8.89" y="13.97" size="1.27" layer="21" rot="R90">B1</text>
-<pad name="A9" x="12.7" y="5.08" drill="1.2"/>
-<pad name="B1" x="-12.7" y="15.24" drill="1.2"/>
+<text x="-3.81" y="-7.62" size="1.27" layer="21" rot="R90">Charlieplexed led matrix</text>
+<text x="-10.16" y="-16.51" size="1.27" layer="21" rot="R90">A1</text>
+<text x="11.43" y="-5.08" size="1.27" layer="21" rot="R90">B1</text>
+<pad name="A9" x="-12.7" y="5.08" drill="1.2"/>
+<pad name="B1" x="12.7" y="-5.08" drill="1.2"/>
 </package>
 <package name="PUSHBUTTON">
 <wire x1="-5.85" y1="-5.75" x2="5.85" y2="-5.75" width="0.127" layer="21"/>

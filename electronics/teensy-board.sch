@@ -4090,7 +4090,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <instance part="R7" gate="G$1" x="-17.78" y="5.08"/>
 <instance part="R8" gate="G$1" x="15.24" y="5.08"/>
 <instance part="R9" gate="G$1" x="45.72" y="5.08"/>
-<instance part="U$7" gate="G$1" x="2.54" y="-30.48"/>
+<instance part="U$7" gate="G$1" x="20.32" y="86.36"/>
 </instances>
 <busses>
 </busses>
