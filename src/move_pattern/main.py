@@ -1,13 +1,13 @@
 import pyb
 
 # declare which pins go where in the PCB
-b_bank = ['D0',  'D1',  'D2',  'D3',  'D4',  'D5',  'D6',  'D7',  'D8']
+b_bank = ['D8',  'D7',  'D6',  'D5',  'D4',  'D3',  'D2',  'D1',  'D0']
 a_bank = ['D9', 'D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17']
 
 buttons = [['D18', 'D19', 'D20'],
            ['D21', 'D22', 'D23'],
            ['A18', 'A19', 'A20']]
-
+'''
 pattern = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
            [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
@@ -17,6 +17,8 @@ pattern = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
            [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
            [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0]]
+'''
+pattern = [[1 for i in range(16)] for j in range(9)]
 
 directions = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
@@ -56,12 +58,12 @@ def init_row(row_num):
     pins_b = [2, 2, 2, 2, 2, 2, 2, 2, 2]
     # initialize the ground pin
     pins_a[row_num] = 0
+    pins_b[row_num] = 0
     for i in range(0, len(pins_a)-1):
         if pattern[row_num][i]:
             # the matrix is charlieplexed. This means that if the column pin
             # is larger or equal to the row pin, it must be offset.
             pins_a[i if i < row_num else i + 1] = 1
-
         if pattern[row_num][i+8]:
             pins_b[i if i < row_num else i + 1] = 1
     return pins_a+pins_b
@@ -93,11 +95,12 @@ def scroll():
     # turn each pin on, one at a time
     for j in range(0, len(pattern)):
         for i in range(0, len(pattern[0])):
-            pins = [2 for i in range(len(pattern))]
-            pins[j] = 0
-            pins[i if i < j else i + 1] = 1
+            pins = [2 for k in range(len(pattern[0])+2)]
+            _j = j if i < 8 else j + 9
+            _i = i if i < 8 else i + 1
+            pins[_j] = 0
+            pins[_i if _i < _j else _i + 1] = 1
             output_row(pins)
-            pyb.delay(100)
 
 
 def show_pattern():
@@ -113,20 +116,23 @@ def read_buttons():
     for i in range(0, 3):
         for j in range(0, 3):
             directions[i][j] = button_pins[i][j].value()
-    print(directions)
 
-#button_pins = [[pyb.Pin(buttons[i][j], pyb.Pin.IN) for j in range(3) ]
-#               for i in range(3)]
+button_pins = [[pyb.Pin(buttons[i][j], pyb.Pin.IN) for j in range(3) ]
+               for i in range(3)]
 
-'''
+
+
+#scroll()
+
 while True:
-    #read_buttons()
+    read_buttons()
     #move_pattern()
-    print("hello")
-
-    # scroll()
+    if directions[1][1]:
+        pattern = [[1 for i in range(16)] for j in range(9)]
+    elif directions[1][2]:
+        pattern = [[0 for i in range(16)] for j in range(9)]
     show_pattern()
-'''
+
 # if something went wrong, the LED will turn on
 
 led = pyb.LED(1)
