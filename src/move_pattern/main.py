@@ -6,7 +6,7 @@ a_bank = ['D9', 'D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17']
 
 buttons = [['D18', 'D19', 'D20'],
            ['D21', 'D22', 'D23'],
-           ['A10', 'A11', 'A14']]
+           ['A18', 'A19', 'A20']]
 
 pattern = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
            [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
@@ -115,19 +115,19 @@ def read_buttons():
             directions[i][j] = button_pins[i][j].value()
     print(directions)
 
-button_pins = [[pyb.Pin(buttons[i][j], pyb.Pin.IN) for j in range(3) ]
-               for i in range(3)]
+#button_pins = [[pyb.Pin(buttons[i][j], pyb.Pin.IN) for j in range(3) ]
+#               for i in range(3)]
 
-
+'''
 while True:
-    read_buttons()
-    move_pattern()
+    #read_buttons()
+    #move_pattern()
+    print("hello")
 
     # scroll()
     show_pattern()
-
+'''
 # if something went wrong, the LED will turn on
-pin = pyb.Pin()
 
 led = pyb.LED(1)
 led.on()
