@@ -13,6 +13,7 @@ trail_to_follow = [9, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 2, 1, 1, 1
                    11, 12, 12, 12, 13, 13, 13, 14, 14, 15, 15, 15, 14, 14, 14, 13, 13,
                    12, 12, 11, 11, 10, 10, 9, 9]
 
+
 def pin_state(pin_name, state):
     # set pin i to either low (0), high (1) or floating (2). Setting the pin
     # to floating requires setting it as an input pin (and thus has high
@@ -38,15 +39,7 @@ class DemoBoard(object):
 
     def __init__(self):
         self.sprite_pos = [8, 4]
-        self.pattern = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-                   [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
-                   [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
-                   [1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1],
-                   [0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0],
-                   [1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1],
-                   [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
-                   [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
-                   [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0]]
+        self.pattern = [[0 for i in range(16)] for j in range(9)]
         self.directions = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
         self.button_pins = [[pyb.Pin(buttons[i][j], pyb.Pin.IN) for j in range(3) ]
                             for i in range(3)]
@@ -83,8 +76,6 @@ class DemoBoard(object):
             for j in range(15):
                 if j == self.trail[i] or j-1 == self.trail[i] or j+1 == self.trail[i]:
                     self.pattern[i][j] = 1
-                #if self.trail[i]-4 < j or self.trail[i]+4 > j:
-                #    self.pattern[i][j] = 1
         self.pattern[8][self.sprite_pos[0] % 15] = 1
         self.pattern[8][(self.sprite_pos[0] + 1) % 15] = 1
         self.pattern[8][(self.sprite_pos[0] - 1) % 15] = 1
