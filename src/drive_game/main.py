@@ -8,6 +8,10 @@ buttons = [['D18', 'D19', 'D20'],
            ['D21', 'D22', 'D23'],
            ['A18', 'A19', 'A20']]
 
+trail_to_follow = [9, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1,
+                   2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10,
+                   11, 12, 12, 12, 13, 13, 13, 14, 14, 15, 15, 15, 14, 14, 14, 13, 13,
+                   12, 12, 11, 11, 10, 10, 9, 9]
 
 def pin_state(pin_name, state):
     # set pin i to either low (0), high (1) or floating (2). Setting the pin
@@ -33,6 +37,7 @@ def output_row(pin_row):
 class DemoBoard(object):
 
     def __init__(self):
+        self.sprite_pos = [8, 4]
         self.pattern = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
                    [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
                    [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
@@ -45,62 +50,60 @@ class DemoBoard(object):
         self.directions = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
         self.button_pins = [[pyb.Pin(buttons[i][j], pyb.Pin.IN) for j in range(3) ]
                             for i in range(3)]
+        self.trail = [8 for i in range(9)]
+        self.current_index = 0
+        self.fill_index = 0
 
     def move_pattern(self):
         # this could be a static global variable, but in anticipation of it
         # changing in future, I'm currently returning the pattern as a method
         # output.
-        up_active = (self.directions[0][0] or self.directions[0][1] or self.directions[0][2])
-        down_active = (self.directions[2][0] or self.directions[2][1] or self.directions[2][2])
-        left_active = (self.directions[0][0] or self.directions[1][0] or self.directions[2][0])
-        right_active = (self.directions[0][2] or self.directions[1][2] or self.directions[2][2])
-        center = self.directions[1][1]
-        up_down = up_active - down_active
-        left_right = left_active - right_active
-        if up_down == -1:
-            # move the pattern down
-            self.pattern.insert(0, self.pattern.pop())
-        elif up_down == 1:
-            # move the pattern up
-            self.pattern.insert(-1, self.pattern.pop(0))
-        if left_right == -1:
-            for row in range(len(self.pattern)):
-                self.pattern[row].insert(0, self.pattern[row].pop())
-        elif left_right == 1:
-            for row in range(len(self.pattern)):
-                self.pattern[row].insert(-1, self.pattern[row].pop(0))
-        elif center == 1:
-            for i in range(len(self.pattern)):
-                for j in range(len(self.pattern[0])):
-                    self.pattern[i][j] = not self.pattern[i][j]
+        left_active = self.directions[1][2]
+        right_active = self.directions[1][0]
+        up_active = self.directions[0][1]
+        down_active = self.directions[1][1]
+        if left_active:
+            self.sprite_pos[0] -= 1
+        if right_active:
+            self.sprite_pos[0] += 1
+        if up_active:
+            self.sprite_pos[1] -= 1
+        if down_active:
+            self.sprite_pos[1] += 1
 
     def read_buttons(self):
         for i in range(0, 3):
             for j in range(0, 3):
                 self.directions[i][j] = self.button_pins[i][j].value()
 
-    def on_off(self):
-        if self.directions[1][1]:
-            self.pattern = [[1 for i in range(16)] for j in range(9)]
-        elif self.directions[1][2]:
-            self.pattern = [[0 for i in range(16)] for j in range(9)]
+    def update_pattern(self):
+        self.pattern = [[0 for i in range(16)] for j in range(9)]
+
+        for i in range(8):
+            for j in range(15):
+                if j == self.trail[i] or j-1 == self.trail[i] or j+1 == self.trail[i]:
+                    self.pattern[i][j] = 1
+                #if self.trail[i]-4 < j or self.trail[i]+4 > j:
+                #    self.pattern[i][j] = 1
+        self.pattern[8][self.sprite_pos[0] % 15] = 1
+        self.pattern[8][(self.sprite_pos[0] + 1) % 15] = 1
+        self.pattern[8][(self.sprite_pos[0] - 1) % 15] = 1
+        self.trail.insert(0, trail_to_follow[self.current_index])
+        if self.trail[-1] == self.sprite_pos[0]:
+            self.fill_index += 1
+        for i in range(8):
+            if self.fill_index/20 > i:
+                self.pattern[i][15] = 1
+        self.current_index += 1
+        self.current_index %= len(trail_to_follow)
+        self.trail.pop()
 
     def run(self):
         while True:
             self.read_buttons()
             self.move_pattern()
+            self.update_pattern()
             self.show_pattern()
-
-    def scroll(self):
-        # turn each pin on, one at a time
-        for j in range(0, len(self.pattern)):
-            for i in range(0, len(self.pattern[0])):
-                pins = [2 for k in range(len(self.pattern[0]) + 2)]
-                _j = j if i < 8 else j + 9
-                _i = i if i < 8 else i + 1
-                pins[_j] = 0
-                pins[_i if _i < _j else _i + 1] = 1
-                output_row(pins)
 
     def init_row(self, row_num):
         # initialize an empty array of tri-state logic
