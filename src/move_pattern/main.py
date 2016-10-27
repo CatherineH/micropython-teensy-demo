@@ -7,7 +7,6 @@ a_bank = ['D9', 'D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17']
 buttons = [['D18', 'D19', 'D20'],
            ['D21', 'D22', 'D23'],
            ['A18', 'A19', 'A20']]
-'''
 pattern = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
            [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
@@ -17,8 +16,7 @@ pattern = [[0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
            [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1],
            [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0]]
-'''
-pattern = [[1 for i in range(16)] for j in range(9)]
+
 
 directions = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
@@ -29,7 +27,6 @@ def move_pattern():
     # output.
     global directions
     global pattern
-    #print(directions)
     up_active = (directions[0][0] or directions[0][1] or directions[0][2])
     down_active = (directions[2][0] or directions[2][1] or directions[2][2])
     left_active = (directions[0][0] or directions[1][0] or directions[2][0])
@@ -48,7 +45,6 @@ def move_pattern():
     elif left_right == 1:
         for row in range(len(pattern)):
             pattern[row].insert(-1, pattern[row].pop(0))
-    #print(pattern)
 
 
 def init_row(row_num):
@@ -116,22 +112,28 @@ def read_buttons():
     for i in range(0, 3):
         for j in range(0, 3):
             directions[i][j] = button_pins[i][j].value()
+    print(directions)
 
 button_pins = [[pyb.Pin(buttons[i][j], pyb.Pin.IN) for j in range(3) ]
                for i in range(3)]
 
 
+def on_off():
+    global directions
+    global pattern
 
-#scroll()
-
-while True:
-    read_buttons()
-    #move_pattern()
     if directions[1][1]:
         pattern = [[1 for i in range(16)] for j in range(9)]
     elif directions[1][2]:
         pattern = [[0 for i in range(16)] for j in range(9)]
+
+
+while True:
+    read_buttons()
+    move_pattern()
+
     show_pattern()
+
 
 # if something went wrong, the LED will turn on
 
