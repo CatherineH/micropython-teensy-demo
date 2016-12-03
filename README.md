@@ -1,3 +1,6 @@
-The first version of this board had the charlieplexed footprint flipped, which means that the teensy must be soldered on upside-down.
+This repository contains electrical schematics and sample code to control a charlieplexed led matrix and some pushbutton switches using a teensy and micropython.
 
-The teensy footprints were originally created by PRJC forum user [Constatin](https://forum.pjrc.com/members/1713-Constantin?s=62e631f60cdd86e528230dd5a903c2d9)
+The parts in the electrical schematic are stored in [my eagle library repository](https://github.com/CatherineH/catherineh-eagle-libraries).
+
+For more information on running the sample code, check out [my blog post on using micropython with the teensy](http://catherineh.github.io/programming/2016/09/18/getting-started-with-micropython-on-the-teensy).
+
